@@ -8,7 +8,7 @@ const LoadingSpinner = props => {
   useEffect(() => {
     lottie.loadAnimation({
       container: container.current,
-      renderer: "svg",
+      renderer: 'progressiveLoad',
       loop: true,
       autoplay: true,
       animationData : require('../public/Assets/facescan.json')

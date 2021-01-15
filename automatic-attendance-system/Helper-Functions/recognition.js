@@ -1,4 +1,5 @@
 const loadMachineLearningModel = async (img) => {
+    console.log('hello');
     const photo = document.createElement('img');
     photo.setAttribute("src", img);
     await Promise.all([

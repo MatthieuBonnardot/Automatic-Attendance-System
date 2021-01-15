@@ -31,3 +31,31 @@ a {
   align-self: center;
   justify-self: center;
 }
+
+ 
+.loading { 
+  background: url('../public/Assets/bg2.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.loading h1 {
+  color: white;
+}
+
+.emphasis {
+  background: -webkit-linear-gradient(#eee, #87FB89);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+ }
+
+ .emphasis2 {
+  background: -webkit-linear-gradient(#eee, #7BC9EA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+ }

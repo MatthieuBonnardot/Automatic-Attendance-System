@@ -1,12 +1,12 @@
 // Import Next Features & Styles
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+
 // Import React Features
 import { useState, useEffect, useCallback, useRef } from "react";
 import loadMachineLearningModel from "../Helper-Functions/recognition";
 // Import Helper components
 import Webcam from "react-webcam";
-import LoadingSpinner from '../SharedComponents/LoadingSpinner';
+import LoadingImage from "../SharedComponents/LoadingImage";
 
 const videoConstraints = {
   width: 1280,
@@ -18,28 +18,17 @@ export default function Home() {
   const [isLoading, setLoadingState] = useState(false);
   const [userExists, setUser] = useState("");
   const webcamRef = useRef(null);
-  const webcamFrame = useRef(null);
-  const photoRef = useRef(null);
 
-  const capture = useCallback(async () => {
-    setLoadingState(true);
-    let webWorker;
-    const frame = webcamFrame.current;
-    frame.setAttribute("className", "hide");
+  const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    // photo.setAttribute("src", imageSrc);
-    // if (typeof(Worker) !== "undefined") {
-    //   if (typeof(webWorker) !== "undefined") {
-    //     w = new Worker();
-    //   }
-
-    // } else {
-
-    // }
-    const user = await loadMachineLearningModel(imageSrc);
-    console.log("user", user);
-    setLoadingState(false);
+    setLoadingState(true);
+    setTimeout(() => {getIdentity(imageSrc);}, 1000);
   }, [webcamRef]);
+
+  const getIdentity = async (img) => {
+    await loadMachineLearningModel(img).then((user) => setUser(user));
+    setLoadingState(false);
+  };
 
   return (
     <>
@@ -50,25 +39,31 @@ export default function Home() {
         <script defer src="face-api.min.js"></script>
       </Head>
 
-      <>
-        {isLoading ? (
-          <LoadingSpinner />
+      <div>
+        {!isLoading && userExists ? (
+          <div>
+            <h1>Welcome Back {userExists}</h1>
+          </div>
         ) : (
           <>
-            <div className="ex" ref={webcamFrame}>
-              <Webcam
-                audio={false}
-                height={720}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                width={1280}
-                videoConstraints={videoConstraints}
-              />
-              <button onClick={capture}>Log in</button>
-            </div>
+            {isLoading && !userExists ? (
+              <LoadingImage />
+            ) : (
+              <>
+                <Webcam
+                  audio={false}
+                  height={720}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  width={1280}
+                  videoConstraints={videoConstraints}
+                />
+                <button onClick={capture}>Log in</button>
+              </>
+            )}
           </>
         )}
-      </>
+      </div>
     </>
   );
 }
