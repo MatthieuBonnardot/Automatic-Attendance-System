@@ -15,7 +15,11 @@ const videoConstraints = {
 
 export default function Home() {
   const [isLoading, setLoadingState] = useState(true);
+  const [userExists, setUser] = useState("");
+  const webcamRef = useRef(null);
+  const photoRef = useRef(null);
   let MLapi;
+
   useEffect(() => {
     const loadMachineLearningModel = () => {
       Promise.all([
@@ -37,15 +41,17 @@ export default function Home() {
     loadMachineLearningModel();
   });
 
-  const webcamRef = useRef(null);
-  const photoRef = useRef(null);
-
   const capture = useCallback(async () => {
     const photo = photoRef.current;
     const imageSrc = webcamRef.current.getScreenshot();
-    console.log(imageSrc);
+    setLoadingState(true);
     photo.setAttribute("src", imageSrc);
-    console.log(await recognize(MLapi, photo));
+    const user = await recognize(MLapi, photo);
+    if (user) {
+      console.log(user);
+      setUser(user);
+      setLoadingState(false);
+    }
   }, [webcamRef]);
 
   return (
@@ -57,30 +63,38 @@ export default function Home() {
         <script defer src="face-api.min.js"></script>
       </Head>
 
-      <div className={styles.container}>
+      <>
         {isLoading ? (
           <div>
             <h1>Loading...</h1>
           </div>
         ) : (
-          <>
-            <Webcam
-              audio={false}
-              height={720}
-              ref={webcamRef}
-              screenshotFormat="image/jpeg"
-              width={1280}
-              videoConstraints={videoConstraints}
-            />
-            <button onClick={capture}>Log in</button>
-            <img
-              id="photo"
-              ref={photoRef}
-              alt="The screen capture will appear in this box."
-            />
-          </>
+          <div className={styles.container}>
+            {!isLoading && !userExists ? (
+              <>
+                <Webcam
+                  audio={false}
+                  height={720}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  width={1280}
+                  videoConstraints={videoConstraints}
+                />
+                <button onClick={capture}>Log in</button>
+                <img
+                  id="photo"
+                  ref={photoRef}
+                  alt="The screen capture will appear in this box."
+                />
+              </>
+            ) : (
+              <div>
+                <h1>Welcome Back {userExists}</h1>
+              </div>
+            )}
+          </div>
         )}
-      </div>
+      </>
     </>
   );
 }
