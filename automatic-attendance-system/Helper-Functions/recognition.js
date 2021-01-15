@@ -1,4 +1,6 @@
-const loadMachineLearningModel = async (photo) => {
+const loadMachineLearningModel = async (img) => {
+    const photo = document.createElement('img');
+    photo.setAttribute("src", img);
     await Promise.all([
         faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
         faceapi.nets.faceLandmark68Net.loadFromUri("/models"),

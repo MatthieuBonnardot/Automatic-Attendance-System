@@ -23,12 +23,20 @@ export default function Home() {
 
   const capture = useCallback(async () => {
     setLoadingState(true);
-    const photo = photoRef.current;
+    let webWorker;
     const frame = webcamFrame.current;
     frame.setAttribute("className", "hide");
     const imageSrc = webcamRef.current.getScreenshot();
-    photo.setAttribute("src", imageSrc);
-    const user = await loadMachineLearningModel(photo);
+    // photo.setAttribute("src", imageSrc);
+    // if (typeof(Worker) !== "undefined") {
+    //   if (typeof(webWorker) !== "undefined") {
+    //     w = new Worker();
+    //   }
+
+    // } else {
+
+    // }
+    const user = await loadMachineLearningModel(imageSrc);
     console.log("user", user);
     setLoadingState(false);
   }, [webcamRef]);
@@ -58,11 +66,6 @@ export default function Home() {
               />
               <button onClick={capture}>Log in</button>
             </div>
-            <img
-              id="photo"
-              ref={photoRef}
-              alt="The screen capture will appear in this box."
-            />
           </>
         )}
       </>
