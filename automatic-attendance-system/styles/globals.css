@@ -19,3 +19,7 @@ a {
 #photo {
   display: none;
 }
+
+.hide {
+  display: none;
+}

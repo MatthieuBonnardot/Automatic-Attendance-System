@@ -3,7 +3,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 // Import React Features
 import { useState, useEffect, useCallback, useRef } from "react";
-import recognize from "../Helper-Functions/recognition";
+import loadMachineLearningModel from "../Helper-Functions/recognition";
 // Import Helper components
 import Webcam from "react-webcam";
 
@@ -17,41 +17,18 @@ export default function Home() {
   const [isLoading, setLoadingState] = useState(true);
   const [userExists, setUser] = useState("");
   const webcamRef = useRef(null);
+  const webcamFrame = useRef(null);
   const photoRef = useRef(null);
-  let MLapi;
-
-  useEffect(() => {
-    const loadMachineLearningModel = () => {
-      Promise.all([
-        faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
-        faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
-        faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
-      ]).then(
-        console.log(
-          "The Machine Learning Model has been loaded successfully",
-          faceapi
-        )
-      );
-      if (faceapi) {
-        MLapi = faceapi;
-        setLoadingState(false);
-      }
-    };
-
-    loadMachineLearningModel();
-  });
 
   const capture = useCallback(async () => {
     const photo = photoRef.current;
+    const frame = webcamFrame.current;
+    frame.setAttribute("className", "hide");
     const imageSrc = webcamRef.current.getScreenshot();
-    setLoadingState(true);
     photo.setAttribute("src", imageSrc);
-    const user = await recognize(MLapi, photo);
-    if (user) {
-      console.log(user);
-      setUser(user);
-      setLoadingState(false);
-    }
+    const user = await loadMachineLearningModel(photo);
+
+    console.log('user',user);
   }, [webcamRef]);
 
   return (
@@ -64,36 +41,22 @@ export default function Home() {
       </Head>
 
       <>
-        {isLoading ? (
-          <div>
-            <h1>Loading...</h1>
-          </div>
-        ) : (
-          <div className={styles.container}>
-            {!isLoading && !userExists ? (
-              <>
-                <Webcam
-                  audio={false}
-                  height={720}
-                  ref={webcamRef}
-                  screenshotFormat="image/jpeg"
-                  width={1280}
-                  videoConstraints={videoConstraints}
-                />
-                <button onClick={capture}>Log in</button>
-                <img
-                  id="photo"
-                  ref={photoRef}
-                  alt="The screen capture will appear in this box."
-                />
-              </>
-            ) : (
-              <div>
-                <h1>Welcome Back {userExists}</h1>
-              </div>
-            )}
-          </div>
-        )}
+        <div className="ex" ref={webcamFrame}>
+          <Webcam
+            audio={false}
+            height={720}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width={1280}
+            videoConstraints={videoConstraints}
+          />
+          <button onClick={capture}>Log in</button>
+        </div>
+        <img
+          id="photo"
+          ref={photoRef}
+          alt="The screen capture will appear in this box."
+        />
       </>
     </>
   );

@@ -1,17 +1,32 @@
-const recognize = async (faceapi, img) => {
-  const labeledFaceDescriptors = await loadLabeledImages();
-  const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
-  const singleResult = await faceapi
-    .detectSingleFace(img)
-    .withFaceLandmarks()
-    .withFaceDescriptor();
+const loadMachineLearningModel = async (photo) => {
+    await Promise.all([
+        faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+        faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+        faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
+    ])
+    console.log("Loaded the ML models", faceapi);
+    return recognize(faceapi, photo);
+};
 
-  if (singleResult) {
-    const bestMatch = await faceMatcher.findBestMatch(singleResult.descriptor);
-    const result = bestMatch._label;
-    return result;
-  } else {
-    console.log("Not found");
+const recognize = async (faceapi, img) => {
+  if (faceapi) {
+    const labeledFaceDescriptors = await loadLabeledImages();
+    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+    const singleResult = await faceapi
+      .detectSingleFace(img)
+      .withFaceLandmarks()
+      // .withFaceExpressions()
+      .withFaceDescriptor();
+
+    if (singleResult) {
+      const bestMatch = await faceMatcher.findBestMatch(
+        singleResult.descriptor
+      );
+      console.log(bestMatch);
+      return bestMatch._label;
+    } else {
+      console.log("Not found");
+    }
   }
 };
 
@@ -36,5 +51,4 @@ function loadLabeledImages() {
   );
 }
 
-
-export default recognize;
+export default loadMachineLearningModel;
