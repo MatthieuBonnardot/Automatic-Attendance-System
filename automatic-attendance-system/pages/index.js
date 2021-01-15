@@ -7,6 +7,7 @@ import loadMachineLearningModel from "../Helper-Functions/recognition";
 // Import Helper components
 import Webcam from "react-webcam";
 import LoadingImage from "../SharedComponents/LoadingImage";
+import WelcomePage from "../SharedComponents/WelcomePage";
 
 const videoConstraints = {
   width: 1280,
@@ -41,9 +42,7 @@ export default function Home() {
 
       <div>
         {!isLoading && userExists ? (
-          <div>
-            <h1>Welcome Back {userExists}</h1>
-          </div>
+          <WelcomePage name={userExists}/>
         ) : (
           <>
             {isLoading && !userExists ? (

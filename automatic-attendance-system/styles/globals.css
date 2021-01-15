@@ -48,6 +48,23 @@ a {
   color: white;
 }
 
+.welcome {
+  background: url('../public/Assets/bg3.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.welcome h1 {
+  font-size: 70px;
+  color: white;
+  margin: 3em;
+}
+
 .emphasis {
   background: -webkit-linear-gradient(#eee, #87FB89);
   -webkit-background-clip: text;
@@ -56,6 +73,11 @@ a {
 
  .emphasis2 {
   background: -webkit-linear-gradient(#eee, #7BC9EA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+ }
+ .emphasis3 {
+  background: -webkit-linear-gradient(#eee, gold);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
  }
