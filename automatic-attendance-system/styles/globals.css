@@ -15,6 +15,65 @@ a {
   box-sizing: border-box;
 }
 
+.pDisplay {
+  font-family: nunito;
+  font-weight: light;
+  font-size: 1.25rem;
+  text-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.pHeader {
+  font-family: "Anton", sans-serif;
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+.pTitle_main {
+  font-family: nunito;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+.pTitle_secondary {
+  font-family: nunito;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.pTitle_medium {
+  font-family: nunito;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.pHeadline {
+  font-family: nunito;
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+
+.pBody {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: normal;
+  font-size: .875rem;
+  opacity: 80%;
+}
+
+.pCaption {
+  font-family: maitree;
+  font-weight: normal;
+  font-size: .75rem;
+}
+
+.white {
+  color: white !important;
+}
+
+.black {
+  color: black !important;
+  opacity: 100%;
+}
+
 .cta {
   border: none;
   border-radius: 3em;
@@ -26,14 +85,26 @@ a {
 
 
 .Button {
-  background: -webkit-linear-gradient(#eee, #7bc9ea);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 5vh;
   width: 20vw;
+  border-radius: 3em;
+}
+
+.blue {
+  border: none;
+  border-radius: 3em;
+  width: 100%;
+  height: 100%;
+  line-height: auto;
+  text-align: center;
+}
+
+.blue:hover {
+  color: white;
+  box-shadow: 0 4px 8px 0 #558BB3, 0 6px 20px 0 #558BB3 !important;
 }
 
 .cta:hover {
@@ -130,4 +201,47 @@ a {
   position: absolute;
   bottom: -3px;
   right:  0%;
+}
+
+.homepage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 10em;
+  height: 100vh;
+  width: 100vw;
+  background:url(../public/Assets/bg.png)
+}
+
+.login {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background:url(../public/Assets/bg2.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.webcam {
+  width: 60%;
+  height: 60%;
+  border-radius: 3em;
+}
+
+.webcam_btn {
+  position: absolute;
+  bottom: 8em;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
 }
