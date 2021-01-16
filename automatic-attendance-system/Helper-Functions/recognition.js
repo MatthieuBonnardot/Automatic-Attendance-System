@@ -34,7 +34,7 @@ const recognize = async (faceapi, img) => {
 };
 
 function loadLabeledImages() {
-  const labels = ["Matthieu", "Peter", "Fra", "Alba", "Alexandra"];
+  const labels = ["Matthieu", "Peter", "Fra", "Alba", "Alexandra", "Damien", "Noah"];
   return Promise.all(
     labels.map(async (label) => {
       const descriptions = [];

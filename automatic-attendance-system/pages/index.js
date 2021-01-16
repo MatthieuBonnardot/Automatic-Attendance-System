@@ -17,7 +17,7 @@ const videoConstraints = {
 
 export default function Home() {
   const [isLoading, setLoadingState] = useState(false);
-  const [userExists, setUser] = useState("");
+  const [userExists, setUser] = useState('');
   const webcamRef = useRef(null);
 
   const capture = useCallback(() => {
@@ -51,10 +51,10 @@ export default function Home() {
               <>
                 <Webcam
                   audio={false}
-                  height={720}
+                  height="100%"
                   ref={webcamRef}
                   screenshotFormat="image/jpeg"
-                  width={1280}
+                  width="100%"
                   videoConstraints={videoConstraints}
                 />
                 <button onClick={capture}>Log in</button>
