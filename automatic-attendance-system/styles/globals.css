@@ -144,7 +144,7 @@ a {
 }
 
 .welcome {
-  background: url("../public/Assets/bg4.png");
+  background: url("../public/Assets/bg2.png");
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -223,7 +223,6 @@ a {
   background:url(../public/Assets/bg2.png);
   background-repeat: no-repeat;
   background-size: cover;
-
 }
 
 .webcam {

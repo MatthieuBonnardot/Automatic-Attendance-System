@@ -16,7 +16,7 @@ const videoConstraints = {
   facingMode: "user",
 };
 
-export default function Home() {
+export default function Home ({students}) {
   const [isLoading, setLoadingState] = useState(false);
   const [userExists, setUser] = useState("");
   const webcamRef = useRef(null);
@@ -30,7 +30,7 @@ export default function Home() {
   }, [webcamRef]);
 
   const getIdentity = async (img) => {
-    await loadMachineLearningModel(img).then((user) => {
+    await loadMachineLearningModel(img, students).then((user) => {
       setUser(user);
     });
     setLoadingState(false);
@@ -78,4 +78,20 @@ export default function Home() {
       </Fade>
     </>
   );
+}
+
+
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  const res = await fetch('http://localhost:2000/students')
+  const students = await res.json();
+  console.log(students.name);
+  // By returning { props: posts }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      students,
+    },
+  }
 }

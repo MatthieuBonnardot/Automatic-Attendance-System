@@ -1,19 +1,19 @@
-const loadMachineLearningModel = async (img) => {
-    console.log('hello');
-    const photo = document.createElement('img');
-    photo.setAttribute("src", img);
-    await Promise.all([
-        faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
-        faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
-        faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
-    ])
-    console.log("Loaded the ML models", faceapi);
-    return recognize(faceapi, photo);
+const loadMachineLearningModel = async (img, students) => {
+  console.log("hello");
+  const photo = document.createElement("img");
+  photo.setAttribute("src", img);
+  await Promise.all([
+    faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+    faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+    faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
+  ]);
+  console.log("Loaded the ML models", faceapi);
+  return recognize(faceapi, photo, students);
 };
 
-const recognize = async (faceapi, img) => {
+const recognize = async (faceapi, img, students) => {
   if (faceapi) {
-    const labeledFaceDescriptors = await loadLabeledImages();
+    const labeledFaceDescriptors = await loadLabeledImages(students);
     const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
     const singleResult = await faceapi
       .detectSingleFace(img)
@@ -33,23 +33,22 @@ const recognize = async (faceapi, img) => {
   }
 };
 
-function loadLabeledImages() {
-  const labels = ["Matthieu", "Peter", "Fra", "Alba", "Alexandra", "Damien", "Jerome","Noah"];
+function loadLabeledImages(students) {
+  console.log("Loading labels", students);
   return Promise.all(
-    labels.map(async (label) => {
+    students.map(async (student) => {
       const descriptions = [];
-      for (let i = 1; i <= 2; i++) {
-        const img = await faceapi.fetchImage(
-          `https://raw.githubusercontent.com/MatthieuBonnardot/Face-Recognition-JavaScript/master/labeled_images/${label}/${i}.jpg`
-        );
+      for (let i = 0; i < student.reference_images.length; i++) {
+        const photo = document.createElement("img");
+        photo.setAttribute("src", student.reference_images[i]);
+        console.log(photo);
         const detections = await faceapi
-          .detectSingleFace(img)
+          .detectSingleFace(photo)
           .withFaceLandmarks()
           .withFaceDescriptor();
         descriptions.push(detections.descriptor);
       }
-
-      return new faceapi.LabeledFaceDescriptors(label, descriptions);
+      return new faceapi.LabeledFaceDescriptors(student.name, descriptions);
     })
   );
 }
