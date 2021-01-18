@@ -155,8 +155,26 @@ a {
   height: 100vh;
 }
 
-.welcome h1 {
+.failure {
+  background: url("../public/Assets/bg5.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+}
+.failure h1 {
   font-size: 70px;
+  color: white;
+  /* margin: 3em; */
+}
+
+.welcome h1 {
+  font-size: 50px;
   color: white;
   /* margin: 3em; */
 }
