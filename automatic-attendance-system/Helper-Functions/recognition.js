@@ -28,7 +28,7 @@ const recognize = async (faceapi, img, students) => {
       console.log(bestMatch);
       return bestMatch._label;
     } else {
-      console.log("Not found");
+      return 'unknown';
     }
   }
 };

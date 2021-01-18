@@ -8,6 +8,7 @@ import Fade from "react-reveal/Fade";
 import Webcam from "react-webcam";
 import LoadingImage from "../SharedComponents/LoadingImage";
 import WelcomePage from "../SharedComponents/WelcomePage";
+import FailedAuthentication from "../SharedComponents/FailedAuthentication"
 import Button from "../SharedComponents/Button";
 
 const videoConstraints = {
@@ -16,9 +17,10 @@ const videoConstraints = {
   facingMode: "user",
 };
 
-export default function Home ({students}) {
+export default function Home({ students }) {
   const [isLoading, setLoadingState] = useState(false);
   const [userExists, setUser] = useState("");
+  const [validUser, setValidUser] = useState(true);
   const webcamRef = useRef(null);
 
   const capture = useCallback(() => {
@@ -31,6 +33,9 @@ export default function Home ({students}) {
 
   const getIdentity = async (img) => {
     await loadMachineLearningModel(img, students).then((user) => {
+      if (user === "unknown") {
+        setValidUser(false);
+      }
       setUser(user);
     });
     setLoadingState(false);
@@ -44,7 +49,13 @@ export default function Home ({students}) {
       <Fade top>
         <div>
           {!isLoading && userExists ? (
-            <WelcomePage name={userExists} />
+            <>
+              {!validUser ? (
+                <FailedAuthentication/>
+              ) : (
+                <WelcomePage name={userExists} />
+              )}
+            </>
           ) : (
             <>
               {isLoading && !userExists ? (
@@ -80,15 +91,13 @@ export default function Home ({students}) {
   );
 }
 
-
 export async function getStaticProps() {
-  const res = await fetch('http://localhost:3000/api/students')
+  const res = await fetch("http://localhost:3000/api/students");
   const students = await res.json();
-  console.log(students.name);
 
   return {
     props: {
       students,
     },
-  }
+  };
 }
