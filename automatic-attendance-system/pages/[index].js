@@ -24,11 +24,11 @@ export default function Home() {
       <div className="homepage">
         <Fade left>
           <h1 className="pTitle_main">
-            Welcome to the <br></br>Automatic authentication system
+            Join your zoom session 
           </h1>
           <Button
             className="Button"
-            href="/logIn"
+            href="/log-in"
             cta="blue"
             text="Log in"
           ></Button>

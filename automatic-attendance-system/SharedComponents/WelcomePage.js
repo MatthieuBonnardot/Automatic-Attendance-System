@@ -17,7 +17,7 @@ const WelcomePage = (props) => {
           Join your <b className="emphasis2">Zoom</b> call by clicking the
           button below!
         </h2>
-        <Button className="Button" href="/" cta="cta" text="Join Zoom call"></Button>
+        <Button className="Button" href="https://us02web.zoom.us/j/85877568731?pwd=VEUzem5meG9tN3VjUWQwbThTQXBvQT09" cta="cta" text="Join Zoom call"></Button>
         <Fade left>
           <div className="decorator1">
             {" "}

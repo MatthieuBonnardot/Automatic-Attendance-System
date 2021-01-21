@@ -11,7 +11,7 @@ const FailedAuthentication = (props) => {
         </h1>
         <Button
           className="Button"
-          href="/logIn"
+          href="/"
           cta="cta"
           text="Try Again"
         ></Button>
